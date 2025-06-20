@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { fieldsValidate } = require("../middlewares/fields-validate");
+
+const { fieldsValidate, validateJWT, haveRol } = require("../middlewares");
+
 const {
   isRolValid,
   isEmailValid,
@@ -46,6 +48,9 @@ router.put(
 router.delete(
   "/:id",
   [
+    validateJWT, // Middleware to validate JWT token
+    // isAdminRol,
+    haveRol("ADMIN_ROLE", "SALES_ROLE"), // Middleware to check if the user has the required role
     check("id", "Invalid ID format").isMongoId(),
     check("id").custom(isUserById), // Custom validator to check if the user exists by ID
     fieldsValidate,

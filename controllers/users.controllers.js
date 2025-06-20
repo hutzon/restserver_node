@@ -77,6 +77,7 @@ const usersPost = async (req, res = response) => {
 
 const usersDelete = async (req, res = response) => {
   const { id } = req.params; // Assuming you want to get an ID from the request parameters
+  const userAuthenticated = req.user; // Get the user ID from the request object (set by JWT middleware)
 
   //delete user by id completely
   // const user = await User.findByIdAndDelete(id); // Delete the user from the database
@@ -84,7 +85,7 @@ const usersDelete = async (req, res = response) => {
   //delete user by id logically
   const user = await User.findByIdAndUpdate(id, { status: false }); // Update the user's status to false (logically delete)
 
-  res.json(user);
+  res.json({ user, userAuthenticated }); // Respond with the deleted user and the authenticated user
 };
 
 const usersPatch = (req, res = response) => {
