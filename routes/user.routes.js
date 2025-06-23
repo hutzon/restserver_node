@@ -40,7 +40,6 @@ router.put(
     check("id", "Invalid ID format").isMongoId(),
     check("id").custom(isUserById), // Custom validator to check if the user exists by ID
     check("rol").custom(isRolValid), // Custom validator to check if the role is valid
-
     fieldsValidate,
   ],
   usersPut,
